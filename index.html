@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TripRecommendator 🌍</title>
+		
+		<!-- Tailwind -->
+		<script src="https://cdn.tailwindcss.com"></script>
+
+		<!--  Leaflet -->
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+		<script
+			src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+		</script>
+	</head>
+	<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col items-center p-4">
+		
+		<header class="w-full max-w-md flex flex-col items-center mb-6">
+			<h1 class="text-4xl font-extrabold text-blue-600 mb-2">Trip Recommendator 🌍</h1>
+			<p class="text-gray-600 text-sm text-center">Encuentra el destino perfecto para tus vacaciones</p>
+		</header>
+
+		<main class="w-full max-w-md flex flex-col gap-6">
+			<section class="flex flex-col gap-3">
+				<label for="trip-input" class="font-medium text-gray-700">¿Qué tipo de viaje buscas?</label>
+				<textarea id="trip-input" rows="4"
+					placeholder="Ej: playas tranquilas, buena comida y vida nocturna"
+					class="p-4 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none resize-y placeholder-gray-400"></textarea>
+				<button id="search-button"
+					class="bg-blue-600 text-white font-bold py-3 rounded-xl shadow hover:bg-blue-700 transition transform hover:-translate-y-0.5">
+					🔍 Buscar destinos
+				</button>
+			</section>
+
+			<section id="results-section" aria-live="polite" class="flex flex-col gap-4">
+				<h2 class="text-xl font-semibold text-gray-700">Resultados</h2>
+				<ul id="results-list" class="flex flex-col gap-3">
+					<li class="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row gap-4 hover:shadow-md hover:bg-gray-50 transition cursor-pointer">
+						<img src="https://maldasingularhotel.com/wp-content/uploads/2018/07/playa-barceloneta-barcelona-3153-1.jpg" alt="Destino" class="w-full md:w-20 rounded-lg object-cover">
+						<div class="flex-1">
+							<h3 class="font-semibold text-gray-800">Barcelona, España</h3>
+							<p class="text-gray-500 text-sm">Esto es un ejmplo, pero aquí hacen pan tumaca! </p>
+						</div>
+						<span class="text-blue-600 font-bold self-start md:self-center">⭐ 4.7</span>
+					</li>
+				</ul>
+			</section>
+
+			<section id="map-section" class="w-full h-[370px] rounded-xl overflow-hidden shadow-lg border border-gray-200">
+				<div id="map" class="w-full h-full"></div>
+				<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+			</section>
+		</main>
+
+		<footer class="mt-6 text-sm text-gray-500 text-center">
+			&copy; 2025 TripRecommendator • Developed by Asraum
+		</footer>
+		
+		<script type="module" src="dist/main.js"></script>
+	</body>
+</html>
