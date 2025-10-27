@@ -1,0 +1,22 @@
+# Base Node
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copiamos package.json y lock
+COPY package*.json ./
+
+# Instalamos dependencias
+RUN npm install
+
+# Copiamos el código fuente
+COPY . .
+
+# Compilamos TypeScript
+RUN npx tsc
+
+ENV PORT=3000
+EXPOSE 3000
+
+# Ejecutamos el backend
+CMD ["node", "dist/server.js"]
