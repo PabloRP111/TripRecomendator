@@ -47,10 +47,12 @@ async function geocodeLocation(city: string, country: string): Promise<{ lat: nu
     const response = await fetch(url, {
       headers: { "User-Agent": "TripRecommendator/1.0 (contact@example.com)" }
     });
-    const data: any = await response.json();
+    
+	const data: any = await response.json();
     if (Array.isArray(data) && data.length > 0) {
       return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
     }
+
     return null;
   } catch (err) {
     console.error("Error en geocodificación:", err);
@@ -58,9 +60,10 @@ async function geocodeLocation(city: string, country: string): Promise<{ lat: nu
   }
 }
 
-app.post("/api/trip", async (req, res) => {
+app.post("/api/trip", async (req, res) =>
+{
 	try
-  {
+	{
 		const { query } = req.body;
 		if (!query)
 			return res.status(400).json({ error: "Texto vacío" });
@@ -122,8 +125,7 @@ app.post("/api/trip", async (req, res) => {
 		}
 
 		res.status(200).json({ destinations: parsed });
-	} catch (err)
-  {
+	} catch (err) {
 		console.error("Error procesando solicitud:", err);
 		res.status(500).json({ error: "Error procesando solicitud" });
 	}

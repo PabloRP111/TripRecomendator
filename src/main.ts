@@ -5,19 +5,18 @@ const markers: any[] = [];
 
 const textarea = document.getElementById("trip-input") as HTMLTextAreaElement;
 const button = document.getElementById("search-button") as HTMLButtonElement;
-const resultsList = document.getElementById("results-list") as HTMLUListElement;
 
 function initMap()
 {
 	if (map)
 		map.remove(); // Reiniciar mapa si ya existe
 
-	map = L.map("map").setView([20, 0], 2);
+	map = L.map("map").setView([20, 0], 2); // Crea un nuevo mapa centrado en el mundo (lat=20, lon=0) y zoom 2
 
 	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 		attribution: '&copy; OpenStreetMap contributors',
 		maxZoom: 15,
-	}).addTo(map);
+	}).addTo(map); // Añade el tile layer de OpenStreetMap como base visual.
 }
 
 function showDestinationsOnMap(destinations: any[]) {
@@ -27,19 +26,19 @@ function showDestinationsOnMap(destinations: any[]) {
 		return;
 
 	destinations.forEach(dest => {
-	if (dest.lat && dest.lon)
-	{
-		const popupHtml = `
-		<h3 class="font-semibold text-gray-800">${dest.name}</h3>
-		<p class="text-gray-500 text-sm">${dest.description}</p>
-		<img src="${dest.img_url}" alt="${dest.name}" width="200" class="rounded-lg mt-2">
-		`;
+		if (dest.lat && dest.lon)
+		{
+			const popupHtml = `
+			<h3 class="font-semibold text-gray-800">${dest.name}</h3>
+			<p class="text-gray-500 text-sm">${dest.description}</p>
+			<img src="${dest.img_url}" alt="${dest.name}" width="200" class="rounded-lg mt-2">
+			`;
 
-		const marker = L.marker([dest.lat, dest.lon]).addTo(map);
-		marker.bindPopup(popupHtml);
+			const marker = L.marker([dest.lat, dest.lon]).addTo(map);
+			marker.bindPopup(popupHtml);
 
-		markers.push({dest, marker})
-	}
+			markers.push({dest, marker})
+		}
 	});
 
 	if (destinations.length > 0)
