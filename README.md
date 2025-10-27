@@ -51,12 +51,51 @@ TripRecommendator/
 └── README.md
 
 ## ⚙️ Configuración del entorno
-1. Variables de entorno
 
-  - Crea un archivo .env en la raíz del proyecto: GROQ_API_KEY=tu_clave_de_groq UNSPLASH_ACCESS_KEY=tu_clave_de_unsplash
+1. **Variables de entorno**
 
-2. Compilar y levantar con Make
-  - El Makefile incluye un comando para compilar los .ts y levantar los contenedores: make compile
+    Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 
+    ```env
+    GROQ_API_KEY=tu_clave_de_groq
+    UNSPLASH_ACCESS_KEY=tu_clave_de_unsplash
+    ```
+
+2. **Compilar**
+
+    El `Makefile` incluye un comando para compilar los `.ts` y levantar los contenedores:
+
+    ```bash
+    make compile
+    ```
+
+3. **Levantar Docker**
+
+    - Con Make:
+      ```bash
+      make build up
+      ```
+    - Manualmente:
+      ```bash
+      docker-compose up --build
+      ```
+
+4. **Acceder en el navegador**
+
+    Abre [http://localhost:8080](http://localhost:8080)
+
+
+## 🧹 Limpiar todo el entorno Docker
+
+  Cuando termines, puedes eliminar **contenedores, imágenes, volúmenes y redes** con:
+  - Con Make:
+    ```bash
+    make fclean
+    ```
+  - Manualmente:
+    ```bash
+    docker-compose down --rmi all --volumes --remove-orphans
+    docker network prune -f
+    ```
 
 ##### Created with ❤️ by Asraum.

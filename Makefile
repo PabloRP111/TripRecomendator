@@ -29,3 +29,9 @@ clean:
 	$(COMPOSE) down
 	rm -rf $(DIST)/*
 	@echo "Limpieza completada."
+
+fclean:
+	@echo "Eliminando contenedores, imágenes, volúmenes y redes..."
+	docker-compose down --rmi all --volumes --remove-orphans
+	docker network prune -f
+	@echo "Entorno completamente limpio ✅"
