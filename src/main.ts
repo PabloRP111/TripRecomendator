@@ -5,6 +5,7 @@ const markers: any[] = [];
 
 const textarea = document.getElementById("trip-input") as HTMLTextAreaElement;
 const button = document.getElementById("search-button") as HTMLButtonElement;
+const resultsList = document.getElementById("results-list") as HTMLUListElement;
 
 function initMap()
 {

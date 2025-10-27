@@ -114,3 +114,6 @@ app.post("/api/trip", async (req, res) => {
         res.status(500).json({ error: "Error procesando solicitud" });
     }
 });
+app.listen(PORT, () => {
+    console.log(`Servidor backend activo en http://localhost:${PORT}`);
+});
