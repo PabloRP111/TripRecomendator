@@ -42,7 +42,7 @@ function renderDestinations(destinations) {
         li.innerHTML = `
 			<img src="${dest.img_url ?? 'https://via.placeholder.com/150'}" alt="${dest.name}" class="w-full md:w-20 rounded-lg object-cover">
 			<div class="flex-1">
-				<h3 class="font-semibold text-gray-800">${dest.name} ${dest.city}, ${dest.country}</h3>
+				<h3 class="font-semibold text-gray-800">${dest.name}, ${dest.city} ${dest.country}</h3>
 				<p class="text-gray-500 text-sm">${dest.description}</p>
 			</div>
 			${dest.score ? `<span class="text-blue-600 font-bold self-start md:self-center">⭐ ${dest.score}</span>` : ""}

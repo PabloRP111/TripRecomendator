@@ -32,9 +32,9 @@ async function getUnsplashImage(query) {
         return "https://via.placeholder.com/300x200";
     }
 }
-async function geocodeLocation(city, country) {
+async function geocodeLocation(name, country) {
     try {
-        const query = `${city}, ${country}`;
+        const query = `${name} ${country}`;
         const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
         const response = await fetch(url, {
             headers: { "User-Agent": "TripRecommendator/1.0 (contact@example.com)" }
@@ -56,18 +56,19 @@ app.post("/api/trip", async (req, res) => {
         if (!query)
             return res.status(400).json({ error: "Texto vacío" });
         const prompt = `
-			Genera una lista JSON de 5 destinos turísticos basados en la siguiente descripción: ${query}.
+			Genera una lista JSON de 4 destinos turísticos basados en la siguiente query: ${query}.
+			Si el valor del campo city es igual valor del campo name, deja vacío el campo city.
 			Cada objeto debe tener estos campos:
 			{
 				"name": "Nombre del lugar",
 				"city": "Ciudad o pueblo",
 				"country": "País",
 				"score": 4.5,
-				"description": "Breve descripción del destino"
+				"description": "Breve descripción del destino en base a la query"
 			}
 			No incluyas ningún texto adicional, solo la lista JSON.
 			Si en mi prompt te pregunto exclusivamente por países, en vez por lugares concretos:
-			- Pon el nombre del país en name seguido de la coma.
+			- Pon el nombre del país en name
 			- No pongas nada en city
 			- Pon el continente en country
 			Ejemplo:
@@ -76,7 +77,7 @@ app.post("/api/trip", async (req, res) => {
 				"city": "",
 				"country": "Europa",
 				"score": 5.0,
-				"description": "Breve descripción del destino"
+				"description": "Breve descripción del destino en base a la query"
 			}
 		`;
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -86,7 +87,7 @@ app.post("/api/trip", async (req, res) => {
                 "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
             },
             body: JSON.stringify({
-                model: "llama-3.1-8b-instant",
+                model: "openai/gpt-oss-120b",
                 messages: [{ role: "user", content: prompt }],
                 temperature: 0.7
             })
@@ -103,7 +104,9 @@ app.post("/api/trip", async (req, res) => {
         for (const dest of parsed) {
             const queryText = `${dest.name} ${dest.country}`;
             dest.img_url = await getUnsplashImage(queryText);
-            const coords = await geocodeLocation(dest.city, dest.country);
+            let coords = await geocodeLocation(dest.name, dest.country);
+            if (!coords && dest.country)
+                coords = await geocodeLocation(dest.country, "");
             dest.lat = coords?.lat ?? null;
             dest.lon = coords?.lon ?? null;
         }
